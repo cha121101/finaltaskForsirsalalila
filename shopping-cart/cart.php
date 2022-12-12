@@ -1,9 +1,9 @@
 <?php
     session_start();
-    require_once("dataset.php");    
+    require_once("../config.php");    
 
     $_SESSION['total_price'] = 0;
-
+    
     if(isset($_POST['update']) && isset($_POST['id']) && isset($_POST['size']) && $_POST['quantity']) {
         $arr_id = $_POST['id'];
         $arr_size = $_POST['size'];
@@ -14,6 +14,9 @@
             $_SESSION['cart'][$value_id][$arr_size[$index]] = $arr_quantity[$index];
             $_SESSION['cart_count'] += $arr_quantity[$index];
         }
+    }
+    if(!isset($_SESSION['username'])){
+        header('Location:../loginandcreate/loginForm.php');
     }
 ?>
 
@@ -65,27 +68,38 @@
                         <tbody>
                             <?php if(isset($_SESSION['cart']) && $_SESSION['cart_count'] > 0): ?>                                
                                 <?php foreach($_SESSION['cart'] as $id => $sizes): ?>
+                                <?php 
+                                    $sql=  "SELECT * FROM `tbl_products` WHERE`id`= $id";
+                                    echo var_dump($id);
+                                    $find = mysqli_query($connect ,$sql);    
+                                    foreach($find as $items):
+                                ?>
                                     <?php foreach($sizes as $size => $quantity): ?>
                                         <?php
-                                            $total = $products[$id]['price'] * $quantity;
+                                            
+                                            $total = $items['price'] * $quantity;
                                             $_SESSION['total_price'] += $total;
                                         ?>
                                         <tr>
-                                            <td><img class="img-thumbnail" src="img/<?php echo $products[$id]['photo1'] ?>" style="height: 50px" /></td>
-                                            <td><?php echo $products[$id]['name'] ?></td>
+                                            <td><img class="img-thumbnail" src="img/<?php echo $items['photo1'] ?>" style="height: 50px" /></td>
+                                            <td><?php echo $items['name'] ?></td>
                                             <td><?php echo $size ?></td>
                                             <td>
                                                 <input type="hidden" name="id[]" value="<?php echo $id ?>" />
                                                 <input type="hidden" name="size[]" value="<?php echo $size ?>" />
                                                 <input type="number" name="quantity[]" class="form-control text-center" value="<?php echo $quantity ?>" placeholder="0" min="1" max="100" required="" />
                                             </td>
-                                            <td class="text-right">₱ <?php echo number_format($products[$id]['price'], 2); ?></td>
+                                            <td class="text-right">₱ <?php echo number_format($items['price'], 2); ?></td>
                                             <td class="text-right">₱ <?php echo number_format($total, 2); ?></td>
                                             <td class="text-right">
                                                 <a href="remove.php?k=<?php echo $id ?>&s=<?php echo $size ?>&q=<?php echo $quantity ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
+
+
+
+                                <?php endforeach; ?>
                                 <?php endforeach; ?>
                                                     
                                 <tr>

@@ -56,13 +56,15 @@
                   $selectedRow = mysqli_fetch_array($find);
 
                   if(is_array($selectedRow)){
-                    $_SESSION["username"] = $uname;
-                    $_SESSION['pass'] = $pwd;
+                    $_SESSION["username"] = $selectedRow['username'];
+                    $_SESSION['name'] = $selectedRow['name'];
+                   
+
                   }else{
-                    echo "<script type='text/javascript'>";
-                    echo "alert('username and password is not match')";
-                    echo "window.location.href = 'loginForm.php'";
+                    echo '<script type="text/javascript">';
+                    echo 'alert("username and password is not match")';
                     echo '</script>';
+                  
                   }
                 }
 

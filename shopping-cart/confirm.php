@@ -1,5 +1,10 @@
 <?php
     session_start();
+    
+    include '../config.php';
+    if(!isset($_SESSION['username'])){
+        header('Location:../loginandcreate/loginForm.php');
+    }
 ?>
 
 <!DOCTYPE html>

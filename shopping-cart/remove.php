@@ -1,12 +1,16 @@
 <?php
     session_start();
-    require_once("dataset.php");
+    require_once("../config.php");
 
     if(isset($_POST['process'])) {        
         unset($_SESSION['cart'][$_POST['id']][$_POST['size']]);    
         $_SESSION['cart_count'] -= $_POST['quantity'];
         header("location: cart.php");
     }
+    if(!isset($_SESSION['username'])){
+        header('Location:../loginandcreate/loginForm.php');
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -40,19 +44,28 @@
             </div>
         </div>
         <div class="row">
-            <?php if(isset($_GET['k']) && ($_GET['k'] < count($products))): ?>                
+
+
+                         
+                <?php
+                     $id = $_GET['k'];
+                     $sql=  "SELECT * FROM `tbl_products` WHERE`id`= $id";
+                     $products = mysqli_query($connect ,$sql);
+
+                     foreach($products as $items){
+                    ?>
                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 mb-4">                        
                         <div class="product-image2">                            
-                            <img class="pic-1 w-100" src="img/<?php echo $products[$_GET['k']]['photo1']; ?>">                                                    
+                            <img class="pic-1 w-100" src="img/<?php echo $items['photo1']; ?>">                                                    
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-8 col-lg-8 mb-4">
                         <form method="post">
                             <div class="product-content">
                                 <h3 class="title">
-                                    <?php echo $products[$_GET['k']]['name']; ?> <span class="badge badge-dark">₱ <?php echo $products[$_GET['k']]['price']; ?></span>
+                                    <?php echo $items['name']; ?> <span class="badge badge-dark">₱ <?php echo $items['price']; ?></span>
                                 </h3>                        
-                                <p><?php echo $products[$_GET['k']]['description']; ?></p>
+                                <p><?php echo $items['description']; ?></p>
                                 <hr>
 
                                 <input type="hidden" name="id" value="<?php echo $_GET['k']; ?>">
@@ -67,8 +80,10 @@
                                 <a href="cart.php" class="btn btn-danger btn-lg"><i class="fa fa-arrow-left"></i> Cancel / Go Back</a>
                             </div>
                         </form>                        
-                    </div>                                               
-            <?php endif; ?>
+                    </div> 
+                    <?php
+                    }?>                                 
+            
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

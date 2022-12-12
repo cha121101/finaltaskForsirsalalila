@@ -1,9 +1,15 @@
 <?php
     session_start();    
-    require_once("dataset.php");
+    require_once("../config.php");
 
-    if(!isset($_SESSION['cart_count']))
+    if(!isset($_SESSION['cart_count'])){
         $_SESSION['cart_count'] = 0;
+    }
+    if(!isset($_SESSION['username'])){
+        header('Location:../loginandcreate/loginForm.php');
+    }
+    
+    
 ?>
 
 <!DOCTYPE html>
@@ -20,11 +26,16 @@
 <body>
     <div class="container">
         <div class="row mt-5">
-            <div class="col-10">
+            <div class="col-8">
                 <h1>
                     <i class="fa fa-store"></i>
                     Learn IT Easy Online Shop
                 </h1>
+            </div>
+            <div class="col-2 text-center">
+                <a href="../dashboard/dashboard.php" class="btn btn-dark">
+                    Go to dashboard
+                </a>
             </div>
             <div class="col-2 text-right">
                 <a href="cart.php" class="btn btn-primary">
@@ -37,28 +48,45 @@
             </div>
         </div>
         <div class="row">
-            <?php if(isset($products)): ?>
-                <?php foreach($products as $id => $product): ?>
-                    <div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-4">
-                        <div class="product-grid2 card">
-                            <div class="product-image2">
-                                <a href="details.php?k=<?php echo $id; ?>">
-                                    <img class="pic-1" src="img/<?php echo $product['photo1']; ?>">
-                                    <img class="pic-2" src="img/<?php echo $product['photo2']; ?>">
-                                </a>                        
-                                <a class="add-to-cart" href="details.php?k=<?php echo $id; ?>">
-                                    <i class="fa fa-cart-plus"></i> Add to cart
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title">
-                                <?php echo $product['name']; ?> <span class="badge badge-dark">₱ <?php echo $product['price']; ?></span>
-                                </h3>                        
+
+            <?php 
+                $sql=  "SELECT * FROM tbl_products";
+                $find = mysqli_query($connect ,$sql);
+                
+                $res = mysqli_num_rows($find);
+
+                if($res > 0){
+                    foreach($find as $items){
+                        ?>
+                        <div class="col-6 col-sm-6 col-md-3 col-lg-3 mb-4">
+                            <div class="product-grid2 card">
+                                <div class="product-image2">
+                                    <a href="details.php?k=<?php echo $id; ?>">
+                                        <img class="pic-1" src="img/<?php echo $items['photo1']; ?>">
+                                        <img class="pic-2" src="img/<?php echo $items['photo2']; ?>">
+                                    </a>                        
+                                    <a class="add-to-cart" href="details.php?k=<?php echo $items['id'] ?>">
+                                        <?php
+                                            $_SESSION['id'] = $items['id'];
+                                        ?>
+                                        <i class="fa fa-cart-plus"></i> Add to cart
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title">
+                                    <?php echo $items['name']; ?> <span class="badge badge-dark">₱ <?php echo $items['price']; ?></span>
+                                    </h3>                        
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                        <?php
+                    }
+                }else{
+                    echo "No Connection";
+                }
+
+            ?>
+
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -1,10 +1,17 @@
 <?php
     session_start();
-    session_destroy();
-    session_start();
+    require_once("../config.php");    
+    
+    echo $_SESSION['cart_count'];
+    
+    $_SESSION['totalproductsold'] += $_SESSION['cart_count'];
+    $_SESSION['totalrevenue'] += $_SESSION['total_price'];
+    $_SESSION['cart_count'] = 0;
 
-    if(!isset($_SESSION['cart_count']))
-        $_SESSION['cart_count'] = 0;
+        if(!isset($_SESSION['username'])){
+        header('Location:../loginandcreate/loginForm.php');
+    }
+       
 ?>
 
 <!DOCTYPE html>
