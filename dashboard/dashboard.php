@@ -54,7 +54,7 @@
                
                 
                     <h4 class="border-bottom text-center col-12 my-3"> <a href="../shopping-cart/index.php " class="text-dark">Shop</a></h4>
-                    <h4 class="border-bottom text-center col-12 my-3"> <a href="../shopping-cart/index.php " class="text-dark">Create a Product</a></h4>
+                    <h4 class="border-bottom text-center col-12 my-3"> <a href="../products/addproducts.php " class="text-dark">Create a Product</a></h4>
                     <h4 class="border-bottom text-center col-12 my-3"> <a href="../shopping-cart/index.php " class="text-dark">Delete A product</a></h4>
                     <h4 class="border-bottom text-center col-12 my-3"> <a href="changepass.php " class="text-dark">Settings</a></h4>
                     </div>
