@@ -1,7 +1,7 @@
 <?php
 
-    session_start()
-    
+    session_start();
+    include '../config.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,20 +21,51 @@
         Change Password
     </h2>
     <div class="container col-5">
-    <form>
-    <div class="form-group">
-        <label for="formGroupExampleInput">Current Password</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Current Password">
-    </div>
-    <div class="form-group">
-        <label for="formGroupExampleInput2">New Password</label>
-        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="New Password">
-    </div>
-    <div class="col-12 text-center ">
-    <button type="submit" class="btn btn-primary">Change Password</button>
-    </div>
+        <form method="POST">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Current Password</label>
+                <input type="password" class="form-control" id="formGroupExampleInput" name="cpassword" placeholder="Current Password">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">New Password</label>
+                <input type="password" class="form-control" id="formGroupExampleInput2"  name="npassword" placeholder="New Password">
+            </div>
+            <div class="col-12 text-center ">
+            <button type="submit" class="btn btn-primary" name="changepasshandle">Change Password</button>
+            </div>
         </form>
     </div>
+    <?php
+        $id = $_SESSION['userid'];
+        $sql = "SELECT * FROM `tbl_user` WHERE `userId` = '$id' ";
+        $res = mysqli_query($connect , $sql);
+
+    if(isset($_POST['changepasshandle'])){
+        if(mysqli_num_rows($res) > 0){
+            foreach ($res as $item){
+                if($item['password'] == $_POST['cpassword'] ){
+                    $newpass = $_POST['npassword']; 
+                    $sql = "UPDATE `tbl_user` SET `password`='$newpass' WHERE `userId` = '$id'";
+                    $res = mysqli_query($connect , $sql);
+                    session_destroy();
+                    header('location: ../loginandcreate/loginForm.php');
+                }else{
+                    echo "wrong pass";
+
+
+                    ////// WHAT THEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+                    ////DI NA VIDEEOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+                    ///SIR SORRY POOOOOOOOOOOOOOOOOOOOOOOOO
+
+                    
+
+                };
+            }
+        }else{
+
+        }
+    }
+    ?>
 </body>
 </html>
 

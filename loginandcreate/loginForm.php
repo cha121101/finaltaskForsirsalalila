@@ -58,7 +58,7 @@
                   if(is_array($selectedRow)){
                     $_SESSION["username"] = $selectedRow['username'];
                     $_SESSION['name'] = $selectedRow['name'];
-                   
+                    $_SESSION['userid'] = $selectedRow['userId'];
 
                   }else{
                     echo '<script type="text/javascript">';
