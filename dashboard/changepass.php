@@ -50,13 +50,18 @@
                     session_destroy();
                     header('location: ../loginandcreate/loginForm.php');
                 }else{
-                    echo "wrong pass";
+                    echo '<script type="text/javascript">';
+                    echo 'alert("Incorrect Current Password")';
+                    echo '</script>';
 
 
                     ////// WHAT THEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
                     ////DI NA VIDEEOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
                     ///SIR SORRY POOOOOOOOOOOOOOOOOOOOOOOOO
+                    
 
+
+                    //repo nalang po tsaka push
                     
 
                 };

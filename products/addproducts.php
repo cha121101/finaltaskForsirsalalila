@@ -89,14 +89,21 @@
                            $photo2 = $_POST['photo-2'];
                            $description = $_POST['txtdetails'];
                            $price = $_POST['txtprice'];
-                           $sql = "SELECT * FROM tbl_user WHERE id = '$id'";
+                           $sql = "SELECT * FROM tbl_products WHERE`id`= '$id'";
                            $res = mysqli_query($connect , $sql);
-                           while(mysqli_num_rows($res) < 1){
-                            $sql = "SELECT * FROM tbl_user WHERE id = '$id'";
+                          
+                           while(mysqli_num_rows($res) > 1){
+                           
+                            $sql = "SELECT * FROM tbl_products WHERE `id` = '$id'";
                             $res = mysqli_query($connect , $sql);
+                            
                            }
-                           $sql=  "INSERT INTO `tbl_products`(`id`, `name`, `description`, `price`, `photo1`, `photo2`) VALUES ('$id','$brandName','$photo1','$price','$photo1','$photo2')";
+                           $sql=  "INSERT INTO `tbl_products`(`id`, `name`, `description`, `price`, `photo1`, `photo2`) VALUES ('$id','$brandName','$description','$price','$photo1','$photo2')";
                            $products = mysqli_query($connect ,$sql);
+                           echo '<script type="text/javascript">';
+                           echo 'alert("Succesfully Added")';
+                           echo '</script>';
+                           header("Location:../shopping-cart/index.php");
 
                     }
             ?>

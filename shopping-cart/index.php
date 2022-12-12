@@ -64,7 +64,9 @@
                                     <a href="details.php?k=<?php echo $id; ?>">
                                         <img class="pic-1" src="img/<?php echo $items['photo1']; ?>">
                                         <img class="pic-2" src="img/<?php echo $items['photo2']; ?>">
+                                        
                                     </a>                        
+                                    <p class="text-center">ID: <?php echo $items['id'] ?></p>
                                     <a class="add-to-cart" href="details.php?k=<?php echo $items['id'] ?>">
                                         <?php
                                             $_SESSION['id'] = $items['id'];
